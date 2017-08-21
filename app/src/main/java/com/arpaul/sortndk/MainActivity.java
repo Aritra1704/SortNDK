@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         if(values != null) {
             StringBuilder strBuilder = new StringBuilder();
             for(int i = 0; i < values.length; i++)
-                strBuilder.append(values[i]).append(" , ");
+                strBuilder.append(values[i]).append(", ");
             tvSortedArray.setText(StringUtils.removeLastComma(strBuilder.toString()));
         }
         else
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     public native int[] getRandomListJNI(int length, int maxVal);
 
     public native int[] bubbleSortJNI(int[] oldValues);
+
+    public native int[] insertionSortJNI(int[] oldValues);
 
     public native int[] separateZerosJNI(int[] oldValues);
 }

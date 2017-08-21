@@ -29,6 +29,29 @@ Java_com_arpaul_sortndk_MainActivity_bubbleSortJNI(JNIEnv *env, jobject instance
 }
 
 JNIEXPORT jintArray JNICALL
+Java_com_arpaul_sortndk_MainActivity_insertionSortJNI(JNIEnv *env, jobject instance,
+                                                   jintArray oldValues_) {
+    const jsize length = (*env)->GetArrayLength(env, oldValues_);
+
+    jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
+
+    for (int i = 1; i < length - 1; i++) {
+        key = oarr[i];
+        j = i-1;
+
+        while(j >= 0 && oarr[j] > key) {
+            oarr[j + 1] = oarr[j];
+            j = j - 1;
+        }
+        oarr[j + 1] = key;
+    }
+
+    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, NULL);
+
+    return oldValues_;
+}
+
+JNIEXPORT jintArray JNICALL
 Java_com_arpaul_sortndk_MainActivity_getRandomListJNI(JNIEnv *env, jobject instance, jint length, jint maxVal) {
 
     jintArray newArray = (*env)->NewIntArray(env, length);
