@@ -3,6 +3,7 @@ package com.arpaul.sortndk;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arpaul.utilitieslib.StringUtils;
 
@@ -36,15 +37,25 @@ public class MainActivity extends AppCompatActivity {
             tvUnsortedArray.setText(StringUtils.removeLastComma(strBuilder.toString()));
         }
 
-        int values[] = bubbleSortJNI(oldValues);
-        if(values != null) {
-            StringBuilder strBuilder = new StringBuilder();
-            for(int i = 0; i < values.length; i++)
-                strBuilder.append(values[i]).append(", ");
-            tvSortedArray.setText(StringUtils.removeLastComma(strBuilder.toString()));
-        }
+        int bubblevalues[] = bubbleSortJNI(oldValues);
+        int insertionvalues[] = insertionSortJNI(oldValues);
+        int values[] = selectionSortJNI(oldValues);
+        if(values != null)
+            tvSortedArray.setText(getStringFromIntArray(values));
         else
             tvSortedArray.setText("values is null");
+
+        if(getStringFromIntArray(values).equalsIgnoreCase(getStringFromIntArray(bubblevalues)))
+            Toast.makeText(this, "Same", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "Not Same", Toast.LENGTH_SHORT).show();
+    }
+
+    String getStringFromIntArray(int values[]) {
+        StringBuilder strBuilder = new StringBuilder();
+        for(int i = 0; i < values.length; i++)
+            strBuilder.append(values[i]).append(", ");
+        return StringUtils.removeLastComma(strBuilder.toString());
     }
 
     void initialiseUIControls() {
@@ -63,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     public native int[] bubbleSortJNI(int[] oldValues);
 
     public native int[] insertionSortJNI(int[] oldValues);
+
+    public native int[] selectionSortJNI(int[] oldValues);
 
     public native int[] separateZerosJNI(int[] oldValues);
 }
