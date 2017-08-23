@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+void mergeSort(int pInt[], int min, int max);
+
+void merge(int *pInt, int min, int middle, int max);
+
 JNIEXPORT jintArray JNICALL
 Java_com_arpaul_sortndk_MainActivity_bubbleSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
@@ -45,7 +49,7 @@ Java_com_arpaul_sortndk_MainActivity_insertionSortJNI(JNIEnv *env, jobject insta
         }
     }
 
-    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, NULL);
+    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, 0);
 
     return oldValues_;
 }
@@ -71,10 +75,84 @@ Java_com_arpaul_sortndk_MainActivity_selectionSortJNI(JNIEnv *env, jobject insta
         }
     }
 
-    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, NULL);
+    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, 0);
 
     return oldValues_;
 }
+
+jintArray JNICALL
+Java_com_arpaul_sortndk_MainActivity_mergeSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+    const jsize length = (*env)->GetArrayLength(env, oldValues_);
+
+    jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
+
+    mergeSort(oarr, 0, length);
+
+    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, 0);
+
+    return oldValues_;
+}
+
+JNIEXPORT void mergeSort(int pInt[], int min, int max) {
+    if (min < max) {
+        // Same as (l+r)/2, but avoids overflow for
+        // large l and h
+        int m = min + (max - min)/2;
+
+        // Sort first and second halves
+        mergeSort(pInt, min, m);
+        mergeSort(pInt, m+1, max);
+
+        merge(pInt, min, m, max);
+    }
+}
+
+JNIEXPORT void merge(int *pInt, int min, int middle, int max) {
+    int i, j, k;
+    int n1 = middle - min + 1;
+    int n2 =  max - middle;
+
+    /* create temp arrays */
+    int L[n1], R[n2];
+
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++)
+        L[i] = pInt[min + i];
+    for (j = 0; j < n2; j++)
+        R[j] = pInt[middle + 1+ j];
+
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = min; // Initial index of merged subarray
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            pInt[k] = L[i];
+            i++;
+        } else {
+            pInt[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    /* Copy the remaining elements of L[], if there
+       are any */
+    while (i < n1) {
+        pInt[k] = L[i];
+        i++;
+        k++;
+    }
+
+    /* Copy the remaining elements of R[], if there
+       are any */
+    while (j < n2) {
+        pInt[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
 
 JNIEXPORT jintArray JNICALL
 Java_com_arpaul_sortndk_MainActivity_getRandomListJNI(JNIEnv *env, jobject instance, jint length, jint maxVal) {

@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         int bubblevalues[] = bubbleSortJNI(oldValues);
         int insertionvalues[] = insertionSortJNI(oldValues);
-        int values[] = selectionSortJNI(oldValues);
+        int selectionvalues[] = selectionSortJNI(oldValues);
+        int values[] = mergeSortJNI(oldValues);
         if(values != null)
             tvSortedArray.setText(getStringFromIntArray(values));
         else
@@ -76,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
     public native int[] insertionSortJNI(int[] oldValues);
 
     public native int[] selectionSortJNI(int[] oldValues);
+
+    public native int[] mergeSortJNI(int[] oldValues);
 
     public native int[] separateZerosJNI(int[] oldValues);
 }
