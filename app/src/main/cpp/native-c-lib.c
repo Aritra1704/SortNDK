@@ -9,6 +9,10 @@ void mergeSort(int pInt[], int min, int max);
 
 void merge(int *pInt, int min, int middle, int max);
 
+void quickSort(jint *pInt, int min, int max);
+
+void swap(jint *low, jint *high);
+
 JNIEXPORT jintArray JNICALL
 Java_com_arpaul_sortndk_MainActivity_bubbleSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
@@ -127,29 +131,22 @@ JNIEXPORT void merge(int *pInt, int min, int middle, int max) {
     k = min; // Initial index of merged subarray
     while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
-            pInt[k] = L[i];
-            i++;
+            pInt[k++] = L[i++];
         } else {
-            pInt[k] = R[j];
-            j++;
+            pInt[k++] = R[j++];
         }
-        k++;
     }
 
     /* Copy the remaining elements of L[], if there
        are any */
     while (i < n1) {
-        pInt[k] = L[i];
-        i++;
-        k++;
+        pInt[k++] = L[i++];
     }
 
     /* Copy the remaining elements of R[], if there
        are any */
     while (j < n2) {
-        pInt[k] = R[j];
-        j++;
-        k++;
+        pInt[k++] = R[j++];
     }
 }
 
@@ -195,3 +192,51 @@ Java_com_arpaul_sortndk_MainActivity_separateZerosJNI(JNIEnv *env, jobject insta
     return newArray;
 }
 
+JNIEXPORT jintArray JNICALL
+Java_com_arpaul_sortndk_MainActivity_quicksortSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+    const jsize length = (*env)->GetArrayLength(env, oldValues_);
+
+    jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
+
+    quickSort(oarr, 0, length);
+
+    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, 0);
+
+    return oldValues_;
+}
+
+JNIEXPORT void quickSort(jint *pInt, int min, int max) {
+    if (min < max)
+    {
+        /* pi is partitioning index, arr[p] is now
+           at right place */
+        int pi = partition(pInt, min, max);
+
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(pInt, min, pi - 1);
+        quickSort(pInt, pi + 1, max);
+    }
+}
+
+JNIEXPORT jint partition(jint *pInt, int min, int max) {
+    int pivot = pInt[max];    // pivot
+    int i = (min - 1);  // Index of smaller element
+
+    for (int j = min; j <= max- 1; j++) {
+        // If current element is smaller than or
+        // equal to pivot
+        if (pInt[j] <= pivot) {
+            i++;    // increment index of smaller element
+            swap(&pInt[i], &pInt[j]);
+        }
+    }
+    swap(&pInt[i + 1], &pInt[max]);
+    return (i + 1);
+}
+
+JNIEXPORT void swap(jint *low, jint *high) {
+    int temp = *low;
+    *low = *high;
+    *high = temp;
+}
