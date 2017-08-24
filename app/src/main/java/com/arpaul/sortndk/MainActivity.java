@@ -1,5 +1,7 @@
 package com.arpaul.sortndk;
 
+import android.support.v4.view.PagerTitleStrip;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -7,9 +9,11 @@ import android.widget.Toast;
 
 import com.arpaul.utilitieslib.StringUtils;
 
+import java.util.LinkedHashMap;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvUnsortedArray, tvSortedArray;
+    private TextView tvUnsortedArray;
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
@@ -21,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
 
     //https://developer.android.com/studio/projects/add-native-code.html
 
+    private ViewPager vpSorts;
+    private PagerTitleStrip ptsSorts;
+
+    private SortPagerAdapter adapter;
+    private int oldValues[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         initialiseUIControls();
 
-        int oldValues[] = {5, 6, 8, 1, 0, 3, 0, 7, 2};
         oldValues = getRandomListJNI(100, 1000);
         if(oldValues != null) {
             StringBuilder strBuilder = new StringBuilder();
@@ -37,23 +46,25 @@ public class MainActivity extends AppCompatActivity {
             tvUnsortedArray.setText(StringUtils.removeLastComma(strBuilder.toString()));
         }
 
-        int bubblevalues[] = bubbleSortJNI(oldValues);
-        int insertionvalues[] = insertionSortJNI(oldValues);
-        int selectionvalues[] = selectionSortJNI(oldValues);
-        int mergevalues[] = mergeSortJNI(oldValues);
-        int values[] = quicksortSortJNI(oldValues);
-        if(values != null)
-            tvSortedArray.setText(getStringFromIntArray(values));
-        else
-            tvSortedArray.setText("values is null");
-
-        if(getStringFromIntArray(values).equalsIgnoreCase(getStringFromIntArray(bubblevalues)))
-            Toast.makeText(this, "Same", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "Not Same", Toast.LENGTH_SHORT).show();
+        getAllSorts();
     }
 
-    String getStringFromIntArray(int values[]) {
+    private void getAllSorts() {
+        LinkedHashMap<String, String> hashSorts = new LinkedHashMap<>();
+        hashSorts.put("Bubble Sort", getStringFromIntArray(bubbleSortJNI(oldValues)));
+
+        hashSorts.put("Insertion Sort", getStringFromIntArray(insertionSortJNI(oldValues)));
+
+        hashSorts.put("Selection Sort", getStringFromIntArray(selectionSortJNI(oldValues)));
+
+        hashSorts.put("Merge Sort", getStringFromIntArray(mergeSortJNI(oldValues)));
+
+        hashSorts.put("Quick Sort", getStringFromIntArray(quicksortSortJNI(oldValues)));
+
+        adapter.refresh(hashSorts);
+    }
+
+    private String getStringFromIntArray(int values[]) {
         StringBuilder strBuilder = new StringBuilder();
         for(int i = 0; i < values.length; i++)
             strBuilder.append(values[i]).append(", ");
@@ -61,8 +72,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void initialiseUIControls() {
-        tvUnsortedArray = (TextView) findViewById(R.id.tvUnsortedArray);
-        tvSortedArray = (TextView) findViewById(R.id.tvSortedArray);
+        tvUnsortedArray     = (TextView) findViewById(R.id.tvUnsortedArray);
+
+        vpSorts             = (ViewPager) findViewById(R.id.vpSorts);
+        ptsSorts            = (PagerTitleStrip) findViewById(R.id.ptsSorts);
+
+
+        adapter = new SortPagerAdapter(this, new LinkedHashMap<String, String>());
+        vpSorts.setAdapter(adapter);
     }
 
     /**
