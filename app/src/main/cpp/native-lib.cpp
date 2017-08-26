@@ -6,7 +6,7 @@
 extern "C"
 
 JNIEXPORT jstring JNICALL
-Java_com_arpaul_sortndk_MainActivity_stringFromJNI(
+Java_com_arpaul_sortndk_SortActivity_stringFromJNI(
         JNIEnv *env,
         jobject /* this */) {
     std::string hello = "Hello from C++";

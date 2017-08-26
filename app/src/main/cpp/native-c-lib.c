@@ -14,7 +14,7 @@ void quickSort(jint *pInt, int min, int max);
 void swap(jint *low, jint *high);
 
 JNIEXPORT jintArray JNICALL
-Java_com_arpaul_sortndk_MainActivity_bubbleSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+Java_com_arpaul_sortndk_SortActivity_bubbleSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
 
     jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
@@ -36,7 +36,7 @@ Java_com_arpaul_sortndk_MainActivity_bubbleSortJNI(JNIEnv *env, jobject instance
 }
 
 JNIEXPORT jintArray JNICALL
-Java_com_arpaul_sortndk_MainActivity_insertionSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+Java_com_arpaul_sortndk_SortActivity_insertionSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
 
     jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
@@ -59,7 +59,7 @@ Java_com_arpaul_sortndk_MainActivity_insertionSortJNI(JNIEnv *env, jobject insta
 }
 
 JNIEXPORT jintArray JNICALL
-Java_com_arpaul_sortndk_MainActivity_selectionSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+Java_com_arpaul_sortndk_SortActivity_selectionSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
 
     jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
@@ -85,7 +85,7 @@ Java_com_arpaul_sortndk_MainActivity_selectionSortJNI(JNIEnv *env, jobject insta
 }
 
 jintArray JNICALL
-Java_com_arpaul_sortndk_MainActivity_mergeSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+Java_com_arpaul_sortndk_SortActivity_mergeSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
 
     jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
@@ -152,7 +152,7 @@ JNIEXPORT void merge(int *pInt, int min, int middle, int max) {
 
 
 JNIEXPORT jintArray JNICALL
-Java_com_arpaul_sortndk_MainActivity_getRandomListJNI(JNIEnv *env, jobject instance, jint length, jint maxVal) {
+Java_com_arpaul_sortndk_SortActivity_getRandomListJNI(JNIEnv *env, jobject instance, jint length, jint maxVal) {
 
     jintArray newArray = (*env)->NewIntArray(env, length);
     jint *narr = (*env)->GetIntArrayElements(env, newArray, NULL);
@@ -171,7 +171,7 @@ Java_com_arpaul_sortndk_MainActivity_getRandomListJNI(JNIEnv *env, jobject insta
 }
 
 JNIEXPORT jintArray JNICALL
-Java_com_arpaul_sortndk_MainActivity_separateZerosJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+Java_com_arpaul_sortndk_SortActivity_separateZerosJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
     jintArray newArray = (*env)->NewIntArray(env, length);
 
@@ -193,7 +193,7 @@ Java_com_arpaul_sortndk_MainActivity_separateZerosJNI(JNIEnv *env, jobject insta
 }
 
 JNIEXPORT jintArray JNICALL
-Java_com_arpaul_sortndk_MainActivity_quicksortSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+Java_com_arpaul_sortndk_SortActivity_quicksortSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
 
     jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
