@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class StartActivity extends AppCompatActivity {
 
-    private Button btnSort, btnPalindrome;
+    private Button btnSort, btnPalindrome, btnFibonacci;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +34,18 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(new Intent(StartActivity.this, PalindromeActivity.class));
             }
         });
+
+        btnFibonacci.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StartActivity.this, FibonacciActivity.class));
+            }
+        });
     }
 
     void initaliseUIControls() {
         btnSort         = (Button)findViewById(R.id.btnSort);
         btnPalindrome   = (Button)findViewById(R.id.btnPalindrome);
+        btnFibonacci    = (Button)findViewById(R.id.btnFibonacci);
     }
 }

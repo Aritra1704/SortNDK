@@ -29,6 +29,11 @@ add_library( # Sets the name of the library.
              SHARED
              src/main/cpp/native-palindrome.c)
 
+add_library( # Sets the name of the library.
+              native-fibonacci
+              SHARED
+              src/main/cpp/native-fibonacci.c)
+
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
@@ -50,6 +55,7 @@ target_link_libraries( # Specifies the target library.
                        native-lib
                        native-c-lib
                        native-palindrome
+                       native-fibonacci
 
                        # Links the target library to the log library
                        # included in the NDK.
