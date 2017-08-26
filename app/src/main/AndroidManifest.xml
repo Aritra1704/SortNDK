@@ -9,16 +9,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SortActivity" />
-        <activity android:name=".StartActivity">
+        <activity
+            android:name=".SortActivity"
+            android:theme="@style/ActivityCommon" />
+        <activity
+            android:name=".StartActivity"
+            android:theme="@style/ActivityCommon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PalindromeActivity"></activity>
-        <activity android:name=".FibonacciActivity"></activity>
+        <activity
+            android:name=".PalindromeActivity"
+            android:theme="@style/ActivityCommon" />
+        <activity
+            android:name=".FibonacciActivity"
+            android:theme="@style/ActivityCommon" />
+        <activity
+            android:name=".BinarySearchActivity"
+            android:theme="@style/ActivityCommon"/>
     </application>
 
 </manifest>

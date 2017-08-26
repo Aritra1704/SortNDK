@@ -38,12 +38,8 @@ public class SortActivity extends AppCompatActivity {
         initialiseUIControls();
 
         oldValues = getRandomListJNI(100, 1000);
-        if(oldValues != null) {
-            StringBuilder strBuilder = new StringBuilder();
-            for(int i = 0; i < oldValues.length; i++)
-                strBuilder.append(oldValues[i]).append(" , ");
-            tvUnsortedArray.setText(StringUtils.removeLastComma(strBuilder.toString()));
-        }
+
+        tvUnsortedArray.setText(getStringFromIntArray(oldValues));
 
         getAllSorts();
     }

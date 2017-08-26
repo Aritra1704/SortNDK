@@ -30,4 +30,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dip"
         android:text="Fibonacci" />
+
+    <Button
+        android:id="@+id/btnBinarySearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dip"
+        android:text="Binary Search" />
 </LinearLayout>

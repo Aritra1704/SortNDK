@@ -171,6 +171,25 @@ Java_com_arpaul_sortndk_SortActivity_getRandomListJNI(JNIEnv *env, jobject insta
 }
 
 JNIEXPORT jintArray JNICALL
+Java_com_arpaul_sortndk_BinarySearchActivity_getRandomListJNI(JNIEnv *env, jobject instance, jint length, jint maxVal) {
+
+    jintArray newArray = (*env)->NewIntArray(env, length);
+    jint *narr = (*env)->GetIntArrayElements(env, newArray, NULL);
+
+    time_t t;
+
+    /* Intializes random number generator */
+    srand((unsigned) time(&t));
+
+    for(int i = 0; i < length; i++) {
+        narr[i] = rand() % maxVal;
+    }
+
+    (*env)->ReleaseIntArrayElements(env, newArray, narr, NULL);
+    return newArray;
+}
+
+JNIEXPORT jintArray JNICALL
 Java_com_arpaul_sortndk_SortActivity_separateZerosJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
     jintArray newArray = (*env)->NewIntArray(env, length);
@@ -194,6 +213,19 @@ Java_com_arpaul_sortndk_SortActivity_separateZerosJNI(JNIEnv *env, jobject insta
 
 JNIEXPORT jintArray JNICALL
 Java_com_arpaul_sortndk_SortActivity_quicksortSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
+    const jsize length = (*env)->GetArrayLength(env, oldValues_);
+
+    jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
+
+    quickSort(oarr, 0, length);
+
+    (*env)->ReleaseIntArrayElements(env, oldValues_, oarr, 0);
+
+    return oldValues_;
+}
+
+JNIEXPORT jintArray JNICALL
+Java_com_arpaul_sortndk_BinarySearchActivity_quicksortSortJNI(JNIEnv *env, jobject instance, jintArray oldValues_) {
     const jsize length = (*env)->GetArrayLength(env, oldValues_);
 
     jint *oarr = (*env)->GetIntArrayElements(env, oldValues_, NULL);
