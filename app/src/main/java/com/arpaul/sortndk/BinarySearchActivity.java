@@ -19,7 +19,7 @@ public class BinarySearchActivity extends AppCompatActivity {
         System.loadLibrary("native-binarysearch");
     }
 
-    private TextView tvUnsortedArray, tvSorted, tvSearchResult;
+    private TextView tvUnsortedArray, tvSorted, tvSearchResult, tvSearchDMA;
     private EditText edtSearch;
     private Button btnSearch;
 
@@ -47,6 +47,13 @@ public class BinarySearchActivity extends AppCompatActivity {
                     tvSearchResult.setText("Found at position: " + result);
                 else
                     tvSearchResult.setText("Not Found.");
+
+                int resultDMA = binarySearchDMAJNI(oldValues, searchVal);
+                if(resultDMA >= 0 )
+                    tvSearchDMA.setText("Found in array.");
+                else
+                    tvSearchDMA.setText("Not Found.");
+
             }
         });
     }
@@ -62,6 +69,7 @@ public class BinarySearchActivity extends AppCompatActivity {
         tvUnsortedArray     = (TextView) findViewById(R.id.tvUnsortedArray);
         tvSorted            = (TextView) findViewById(R.id.tvSorted);
         tvSearchResult      = (TextView) findViewById(R.id.tvSearchResult);
+        tvSearchDMA         = (TextView) findViewById(R.id.tvSearchDMA);
 
         edtSearch           = (EditText) findViewById(R.id.edtSearch);
 
@@ -73,4 +81,6 @@ public class BinarySearchActivity extends AppCompatActivity {
     public native int[] quicksortSortJNI(int[] oldValues);
 
     public native int binarySearchJNI(int[] values, int search);
+
+    public native int binarySearchDMAJNI(int[] values, int search);
 }
