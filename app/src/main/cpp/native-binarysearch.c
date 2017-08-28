@@ -53,6 +53,8 @@ void insertLeaf(NODE *leaf, jint value);
 
 NODE *search_leaf(NODE *leaf, jint search);
 
+jint get_leaf_height(NODE *leaf, jint search);
+
 JNIEXPORT struct Node *new_leaf() {
     NODE *leaf = malloc(sizeof(NODE));
     leaf->value = 0;
@@ -101,6 +103,21 @@ JNIEXPORT NODE *search_leaf(NODE *leaf, jint search) {
         return NULL;
 }
 
+//http://www.geeksforgeeks.org/level-order-tree-traversal/
+JNIEXPORT jint get_leaf_height(NODE *leaf, jint search) {
+    if(leaf != NULL) {
+        if(leaf->value == search)
+            return 1;
+        else if(search < leaf->value)
+            return (search_leaf(leaf->left, search) + 1);
+        else if(search > leaf->value)
+            return (search_leaf(leaf->right, search) + 1);
+        else
+            return 0;
+    } else
+        return 0;
+}
+
 JNIEXPORT jint JNICALL
 Java_com_arpaul_sortndk_BinarySearchActivity_binarySearchDMAJNI(JNIEnv *env, jobject instance, jintArray values_, jint search) {
     const jsize length = (*env)->GetArrayLength(env, values_);
@@ -121,8 +138,10 @@ Java_com_arpaul_sortndk_BinarySearchActivity_binarySearchDMAJNI(JNIEnv *env, job
     }
 
     NODE* searchLeaf = search_leaf(tree, search);
-    if(searchLeaf != NULL)
-        searchReport = 1;
+    if(searchLeaf != NULL) {
+        //searchReport = 1;
+        searchReport = get_leaf_height(tree, search);
+    }
 
 //    while (first <= last) {
 //        if (values[middle] < search)
